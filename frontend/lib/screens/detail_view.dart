@@ -46,7 +46,6 @@ class _DetailViewState extends State<DetailView> {
     widget.searchController.clear();
     
     // Initialize state synchronously if there's an initial query
-    // Initialize state synchronously if there's an initial query
     if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
       _lastQuestion = widget.initialQuery;
       _fullHistory.add(ChatMessage(role: 'user', content: widget.initialQuery!));
@@ -250,8 +249,6 @@ class _DetailViewState extends State<DetailView> {
                 const SizedBox(height: 32),
               ],
               
-              // --- ANSWER SECTION ---
-              // Show if we have a question (even if loading)
               // --- ANSWER SECTION ---
               // Show only if we have an answer
               if (_lastAnswer != null && _lastQuestion != null) ...[
