@@ -11,6 +11,7 @@ class HeroSection extends StatelessWidget {
   final LocalizedText heroSubtitle;
   final LocalizedText searchHint;
   final ValueChanged<String>? onSearch;
+  final bool isSearching;
 
   const HeroSection({
     super.key,
@@ -20,6 +21,7 @@ class HeroSection extends StatelessWidget {
     required this.heroSubtitle,
     required this.searchHint,
     this.onSearch,
+    this.isSearching = false,
   });
 
   @override
@@ -59,10 +61,27 @@ class HeroSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
+        
+        // Thinking Text (Visible only when searching)
+        if (isSearching)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              currentLang == AppLang.de ? 'Denke nach...' : 'Thinking...',
+              style: const TextStyle(
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+
         AppSearchBar(
           controller: controller,
           hint: searchHint.of(currentLang),
           onSubmitted: onSearch,
+          // Optional: Disable input while searching if desired, but not strictly requested
         ),
       ],
     );

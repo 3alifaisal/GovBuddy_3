@@ -13,6 +13,7 @@ class DetailView extends StatefulWidget {
   final VoidCallback onBack;
   final TextEditingController searchController;
   final String? initialQuery;
+  final String? initialResponse;
 
   const DetailView({
     super.key,
@@ -22,6 +23,7 @@ class DetailView extends StatefulWidget {
     required this.onBack,
     required this.searchController,
     this.initialQuery,
+    this.initialResponse,
   });
 
   @override
@@ -44,15 +46,23 @@ class _DetailViewState extends State<DetailView> {
     widget.searchController.clear();
     
     // Initialize state synchronously if there's an initial query
+    // Initialize state synchronously if there's an initial query
     if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
       _lastQuestion = widget.initialQuery;
-      _isLoading = true;
       _fullHistory.add(ChatMessage(role: 'user', content: widget.initialQuery!));
-      
-      // Trigger the API call after the first frame
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _performSearch(widget.initialQuery!);
-      });
+
+      if (widget.initialResponse != null) {
+        // Response is already here! No need to fetch.
+        _lastAnswer = widget.initialResponse;
+        _isLoading = false;
+        _fullHistory.add(ChatMessage(role: 'assistant', content: widget.initialResponse!));
+      } else {
+        // No response yet, trigger fetch
+        _isLoading = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _performSearch(widget.initialQuery!);
+        });
+      }
     }
   }
 
@@ -242,7 +252,9 @@ class _DetailViewState extends State<DetailView> {
               
               // --- ANSWER SECTION ---
               // Show if we have a question (even if loading)
-              if (_lastQuestion != null) ...[
+              // --- ANSWER SECTION ---
+              // Show only if we have an answer
+              if (_lastAnswer != null && _lastQuestion != null) ...[
                 // "Answer to: [Question]"
                 Text(
                   widget.currentLang == AppLang.de 
@@ -257,16 +269,15 @@ class _DetailViewState extends State<DetailView> {
                 const SizedBox(height: 24),
                 
                 // The Answer (Markdown)
-                if (_lastAnswer != null)
-                  MarkdownBody(
-                    data: _lastAnswer!,
-                    styleSheet: MarkdownStyleSheet(
-                      p: const TextStyle(fontSize: 16, height: 1.6, color: AppColors.textPrimary),
-                      h1: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 1.5),
-                      h2: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, height: 1.5),
-                      listBullet: const TextStyle(fontSize: 16, color: AppColors.textPrimary),
-                    ),
+                MarkdownBody(
+                  data: _lastAnswer!,
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 16, height: 1.6, color: AppColors.textPrimary),
+                    h1: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 1.5),
+                    h2: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, height: 1.5),
+                    listBullet: const TextStyle(fontSize: 16, color: AppColors.textPrimary),
                   ),
+                ),
               ],
               
               const SizedBox(height: 40),

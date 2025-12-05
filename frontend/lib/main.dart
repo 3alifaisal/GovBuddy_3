@@ -5,6 +5,7 @@ import 'models/category.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/category_card.dart';
 import 'screens/detail_view.dart';
+import 'services/api_service.dart';
 
 enum AppLang { de, en }
 
@@ -42,9 +43,12 @@ class _LandingPageState extends State<LandingPage> {
   AppLang _currentLang = AppLang.de;
   Category? _selectedCategory;
   final TextEditingController _searchController = TextEditingController();
+  final ApiService _apiService = ApiService();
   
-  // Store the initial query for general search
+  // Store the initial query and response for general search
   String? _initialQuery;
+  String? _initialResponse;
+  bool _isSearching = false;
 
   // General Category for Dashboard Search
   final Category _generalCategory = const Category(
@@ -72,6 +76,7 @@ class _LandingPageState extends State<LandingPage> {
     setState(() {
       _selectedCategory = category;
       _initialQuery = null;
+      _initialResponse = null;
     });
   }
 
@@ -79,16 +84,50 @@ class _LandingPageState extends State<LandingPage> {
     setState(() {
       _selectedCategory = null;
       _initialQuery = null;
+      _initialResponse = null;
+      _isSearching = false;
     });
   }
   
-  void _handleDashboardSearch(String query) {
+  Future<void> _handleDashboardSearch(String query) async {
     if (query.trim().isEmpty) return;
     
     setState(() {
-      _selectedCategory = _generalCategory;
-      _initialQuery = query;
+      _isSearching = true;
     });
+
+    try {
+      // Create a temporary history with just this message
+      final history = [ChatMessage(role: 'user', content: query)];
+      
+      // Fetch the response BEFORE navigating
+      final response = await _apiService.sendChatRequest(
+        history,
+        _generalCategory.id,
+      );
+
+      if (mounted) {
+        setState(() {
+          _initialQuery = query;
+          _initialResponse = response;
+          _selectedCategory = _generalCategory;
+          _isSearching = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        // Handle error gracefully - maybe navigate anyway and let DetailView handle it?
+        // Or just show error state. For now, let's navigate with error message.
+        setState(() {
+          _initialQuery = query;
+          _initialResponse = _currentLang == AppLang.de
+              ? 'Entschuldigung, es gab einen Fehler. Bitte versuche es später noch einmal.'
+              : 'Sorry, there was an error. Please try again later.';
+          _selectedCategory = _generalCategory;
+          _isSearching = false;
+        });
+      }
+    }
   }
 
   List<Category> _buildCategories() => [
@@ -381,6 +420,7 @@ class _LandingPageState extends State<LandingPage> {
                             heroSubtitle: heroSubtitle,
                             searchHint: searchHint,
                             onSearch: _handleDashboardSearch,
+                            isSearching: _isSearching,
                           ),
                           const SizedBox(height: 60),
                           Padding(
@@ -409,6 +449,7 @@ class _LandingPageState extends State<LandingPage> {
                       onBack: _handleBack,
                       searchController: _searchController,
                       initialQuery: _initialQuery,
+                      initialResponse: _initialResponse,
                     ),
             ),
           ),
