@@ -14,6 +14,7 @@ class AppColors {
   static const Color salmon = Color(0xFFE07452);
   static const Color steel = Color(0xFF4F7A99);
   static const Color crimson = Color(0xFFD6424B);
+  static const Color indigo = Color(0xFF6366F1);
   static const Color sand = Color(0xFFD9AF54);
 }
 

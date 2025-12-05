@@ -10,6 +10,7 @@ class HeroSection extends StatelessWidget {
   final LocalizedText heroTitle;
   final LocalizedText heroSubtitle;
   final LocalizedText searchHint;
+  final ValueChanged<String>? onSearch;
 
   const HeroSection({
     super.key,
@@ -18,6 +19,7 @@ class HeroSection extends StatelessWidget {
     required this.heroTitle,
     required this.heroSubtitle,
     required this.searchHint,
+    this.onSearch,
   });
 
   @override
@@ -60,6 +62,7 @@ class HeroSection extends StatelessWidget {
         AppSearchBar(
           controller: controller,
           hint: searchHint.of(currentLang),
+          onSubmitted: onSearch,
         ),
       ],
     );

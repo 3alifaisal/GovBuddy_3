@@ -52,3 +52,16 @@ class LocalizedList {
   /// Returns the list in the requested language.
   List<String> of(AppLang lang) => lang == AppLang.de ? de : en;
 }
+
+/// A chat message in the conversation.
+class ChatMessage {
+  final String role; // 'user' or 'assistant' or 'system'
+  final String content;
+
+  const ChatMessage({required this.role, required this.content});
+
+  Map<String, dynamic> toJson() => {
+    'role': role,
+    'content': content,
+  };
+}

@@ -5,19 +5,18 @@ class AppSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool isCompact;
+  final ValueChanged<String>? onSubmitted;
 
   const AppSearchBar({
     super.key,
     required this.controller,
     required this.hint,
     this.isCompact = false,
+    this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
-    // If compact, we might want a different style (e.g. smaller padding, different shadow)
-    // For now, we'll stick to the base design but allow width constraints from parent.
-    
     return Container(
       width: isCompact ? double.infinity : 700,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -34,6 +33,7 @@ class AppSearchBar extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              onSubmitted: onSubmitted,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hint,
