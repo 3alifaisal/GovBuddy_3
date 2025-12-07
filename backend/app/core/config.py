@@ -1,12 +1,11 @@
-
 from pydantic_settings import BaseSettings
 from typing import Dict
 
 class Settings(BaseSettings):
     ACADEMIC_CLOUD_API_KEY: str
     BASE_URL: str = "https://chat-ai.academiccloud.de/v1"
-    MODEL: str = "llama-3.1-sauerkrautlm-70b-instruct"
-    
+    MODEL: str = "meta-llama-3.1-8b-instruct"
+
     ARCANA_IDS: Dict[str, str] = {
         "anmeldung_und_meldebescheinigung": "ali.avada/anmeldung_und_meldebescheinigung",
         "fuehrerschein_und_verkehr": "ali.avada/fuehrerschein_und_verkehr",
