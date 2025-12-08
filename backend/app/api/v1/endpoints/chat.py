@@ -3,12 +3,9 @@ from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
 from typing import List, Dict
 from app.services import llm_service
+from app.schemas.chat import ChatRequest
 
 router = APIRouter()
-
-class ChatRequest(BaseModel):
-    messages: List[Dict[str, str]]
-    category: str
 
 @router.post("/ask")
 async def ask_question(request: ChatRequest):

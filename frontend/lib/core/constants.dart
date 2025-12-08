@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum AppLang { de, en }
+
 /// Renkler.
 class AppColors {
   static const Color background = Color(0xFFF9F7F3);

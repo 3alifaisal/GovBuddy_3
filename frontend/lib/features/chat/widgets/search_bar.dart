@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import '../core/constants.dart';
+import '../../../core/constants.dart';
+import 'waveform_widget.dart';
 
 class AppSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool isCompact;
   final ValueChanged<String>? onSubmitted;
+  final Widget? suffix;
+  final bool showIcon;
+  final bool isRecording;
+  final Stream<double>? amplitudeStream;
 
   const AppSearchBar({
     super.key,
@@ -13,6 +18,10 @@ class AppSearchBar extends StatelessWidget {
     required this.hint,
     this.isCompact = false,
     this.onSubmitted,
+    this.suffix,
+    this.showIcon = true,
+    this.isRecording = false,
+    this.amplitudeStream,
   });
 
   @override
@@ -28,21 +37,28 @@ class AppSearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.search, color: AppColors.textMuted),
-          const SizedBox(width: 10),
+          if (showIcon && !isRecording) ...[
+            const Icon(Icons.search, color: AppColors.textMuted),
+            const SizedBox(width: 10),
+          ],
           Expanded(
-            child: TextField(
-              controller: controller,
-              onSubmitted: onSubmitted,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hint,
-                hintStyle: const TextStyle(color: AppColors.textMuted),
-                isDense: true,
-              ),
-            ),
+            child: isRecording
+                ? WaveformWidget(amplitudeStream: amplitudeStream ?? const Stream.empty())
+                : TextField(
+                    controller: controller,
+                    onSubmitted: onSubmitted,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: hint,
+                      hintStyle: const TextStyle(color: AppColors.textMuted),
+                      isDense: true,
+                    ),
+                  ),
           ),
-          if (!isCompact) ...[
+          if (suffix != null) ...[
+            const SizedBox(width: 8),
+            suffix!,
+          ] else if (!isCompact && !isRecording) ...[
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(

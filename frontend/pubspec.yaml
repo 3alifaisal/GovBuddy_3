@@ -37,6 +37,11 @@ dependencies:
   http: ^1.6.0
   flutter_markdown_plus: ^1.0.5
   google_fonts: ^6.3.3
+  url_launcher: ^6.2.2
+  shared_preferences: ^2.2.2
+  record: ^5.0.4
+  permission_handler: ^11.1.0
+  speech_to_text: ^6.6.0
 
 dev_dependencies:
   flutter_test:

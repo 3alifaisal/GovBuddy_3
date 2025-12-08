@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/category.dart';
-import '../main.dart'; // For AppLang
+import '../../../models/category.dart';
+import '../../../core/constants.dart'; // For AppLang
 
 class CategoryCard extends StatelessWidget {
   final Category category;

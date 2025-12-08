@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/category.dart';
-import '../main.dart'; // For AppLang
+import '../../../models/category.dart';
+import '../../../main.dart'; // For AppLang
 import '../widgets/hero_section.dart';
 import '../widgets/category_card.dart';
 

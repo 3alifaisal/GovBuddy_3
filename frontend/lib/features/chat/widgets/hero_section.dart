@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/constants.dart';
-import '../models/category.dart'; // For LocalizedText
-import '../main.dart'; // For AppLang
+import '../../../core/constants.dart';
+import '../../../models/category.dart'; // For LocalizedText
+// import '../../../main.dart'; // AppLang is now in constants
 import 'search_bar.dart';
+import 'audio_input_button.dart';
 
 class HeroSection extends StatelessWidget {
   final TextEditingController controller;
@@ -81,6 +82,11 @@ class HeroSection extends StatelessWidget {
           controller: controller,
           hint: searchHint.of(currentLang),
           onSubmitted: onSearch,
+          suffix: AudioInputButton(
+            onTranscription: (text) {
+              onSearch!(text);
+            },
+          ),
           // Optional: Disable input while searching if desired, but not strictly requested
         ),
       ],

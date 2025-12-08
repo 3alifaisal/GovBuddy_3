@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart'; // For AppLang
+import '../core/constants.dart'; // For AppLang
 
 /// Simple data model describing a category tile.
 class Category {
@@ -64,4 +64,11 @@ class ChatMessage {
     'role': role,
     'content': content,
   };
+
+  factory ChatMessage.fromJson(Map<String, dynamic> json) {
+    return ChatMessage(
+      role: json['role'] as String,
+      content: json['content'] as String,
+    );
+  }
 }
