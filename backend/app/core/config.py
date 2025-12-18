@@ -10,19 +10,20 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "GovPilot Bremen Backend"
     
-    ARCANA_IDS: Dict[str, str] = {
-        "anmeldung_und_meldebescheinigung": "ali.avada/anmeldung_und_meldebescheinigung",
-        "fuehrerschein_und_verkehr": "ali.avada/fuehrerschein_und_verkehr",
-        "wohnen_und_mietvertrag": "ali.avada/wohnen_und_mietvertrag",
-        "krankenversicherung_und_gesundheit": "ali.avada/krankenversicherung_und_gesundheit",
-        "arbeit_steuern_und_sozialversicherung": "ali.avada/arbeit_steuern_und_sozialversicherung",
-        "studium_und_hochschule": "ali.avada/studium_und_hochschule"
+ ARCANA_IDS: Dict[str, str] = {
+        "anmeldung_und_meldebescheinigung": "serhad.hamamci/anmeldung_und_meldebescheinigung",
+        "fuehrerschein_und_verkehr": "serhad.hamamci/fuehrerschein_und_verkehr",
+        "wohnen_und_mietvertrag": "serhad.hamamci/wohnen_und_mietvertrag",
+        "krankenversicherung_und_gesundheit": "serhad.hamamci/krankenversicherung_und_gesundheit",
+        "arbeit_steuern_und_sozialversicherung": "serhad.hamamci/arbeit_steuern_und_sozialversicherung",
+        "studium_und_hochschule": "serhad.hamamci/studium_und_hochschule",
+        "verwaltung_und_buergerservice": "serhad.hamamci/verwaltung_und_buergerservice"
     }
+
 
     ACADEMIC_CLOUD_API_KEY: str = ""
     ACADEMIC_CLOUD_BASE_URL: str = "https://chat-ai.academiccloud.de/v1"
-    ACADEMIC_CLOUD_MODEL_NAME: str = "meta-llama-3.1-8b-instruct"
-    
+    ACADEMIC_CLOUD_MODEL_NAME: str = "qwen3-30b-a3b-instruct-2507"
     # Local Speech Config
     WHISPER_MODEL_SIZE: str = "base" # options: tiny, base, small, medium, large-v3
 
